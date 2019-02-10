@@ -1,0 +1,33 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>markov-chain-based random text generator</title>
+</script>
+</head>
+<body>
+  <style type="text/css">
+   * { font-family: Courier, "Courier New", Monospace;
+   }
+   #main-input, #main-output {
+     white-space: pre-line; 
+     display: block;
+     float: left;
+     width: 40%;
+     margin: 1% 2% 0px 1%;
+     font-size: 100%;
+   }
+   #main-input {height: 80%;}
+   #main-output {font-weight: bold;}
+  </style>
+  <div id="main"></div>
+  <div style="float:left; clear:both"><br><br>
+    <a target=_blank
+       href="https://github.com/pzel/markov">Source</a></div>
+  <script src="main.js"></script>
+  <script>
+   var node = document.getElementById('main');
+   var app = Elm.Main.embed(node, {
+     seed: parseInt(Date.now().toFixed(), 10)
+   });
+  </script>
+</body>
