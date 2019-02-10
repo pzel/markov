@@ -1,5 +1,5 @@
 .PHONY: run publish
-R := git@github.com:pzel/redacted.git
+R := git@github.com:pzel/markov.git
 
 run: build
 	-pkill -f SimpleHTTPServer; sleep 1;
@@ -21,4 +21,4 @@ publish: build launchpad
 	(cd launchpad &&\
 	git add -A &&\
 	 git commit --allow-empty -m "Update $$(date +%Y%m%d%H%M%S)" &&\
-	git push origin gh-pages)
+	git push -f origin gh-pages)
