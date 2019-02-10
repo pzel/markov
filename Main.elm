@@ -63,7 +63,7 @@ update msg model =
        Generate ->
          {model
            | output = generate model.input model.desiredLength nextRng
-           , rng = (newRng nextRng)} ! []
+           , rng = (newRng (newRng nextRng))} ! []
 
 view : Model -> Html Msg
 view model =
@@ -129,14 +129,14 @@ triplets l =
                  Just t2 -> zip3 l t1 t2
 
 generate : Text Raw -> Int -> RNG -> Maybe String
-generate raw length rng =
+generate raw desiredLength rng =
   let corpus = clean raw
       digrams = buildDigrams corpus
   in if (List.length corpus) < 3
      then Nothing
      else
        let ((t1,t2), newRng) = randomInitialSequence corpus rng
-       in Just (fromDigrams digrams 100 rng (t1,t2) [])
+       in Just (fromDigrams digrams desiredLength newRng (t1,t2) [])
 
 fromDigrams : Digrams -> Int -> RNG -> (Token, Token) -> List Token -> String
 fromDigrams d left rng (last1,last2) acc =
@@ -169,7 +169,7 @@ randomInitialSequence : Corpus -> RNG -> ((Token,Token),RNG)
 randomInitialSequence corpus (gen,seed) =
   let (v, newSeed) = Random.step gen seed
       idx = v % (List.length corpus)
-      candidates = (List.drop v corpus |> List.take 2)
+      candidates = List.drop idx corpus |> List.take 2
   in case candidates of
        [a,b] -> ((a,b), (gen,newSeed))
        _ -> randomInitialSequence corpus (gen,newSeed) -- shouldn't happen
