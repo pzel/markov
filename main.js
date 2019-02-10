@@ -9067,7 +9067,7 @@ var _pzel$markov$Main$randomInitialSequence = F2(
 			var candidates = A2(
 				_elm_lang$core$List$take,
 				2,
-				A2(_elm_lang$core$List$drop, v, corpus));
+				A2(_elm_lang$core$List$drop, idx, corpus));
 			var _p3 = candidates;
 			if (((_p3.ctor === '::') && (_p3._1.ctor === '::')) && (_p3._1._1.ctor === '[]')) {
 				return {
@@ -9228,7 +9228,7 @@ var _pzel$markov$Main$clean = function (_p27) {
 		A2(_elm_lang$core$String$map, _pzel$markov$Main$replacePunctuation, _p28._0));
 };
 var _pzel$markov$Main$generate = F3(
-	function (raw, length, rng) {
+	function (raw, desiredLength, rng) {
 		var corpus = _pzel$markov$Main$clean(raw);
 		var digrams = _pzel$markov$Main$buildDigrams(corpus);
 		if (_elm_lang$core$Native_Utils.cmp(
@@ -9244,8 +9244,8 @@ var _pzel$markov$Main$generate = F3(
 				A5(
 					_pzel$markov$Main$fromDigrams,
 					digrams,
-					100,
-					rng,
+					desiredLength,
+					newRng,
 					{ctor: '_Tuple2', _0: t1, _1: t2},
 					{ctor: '[]'}));
 		}
@@ -9339,7 +9339,8 @@ var _pzel$markov$Main$update = F2(
 						model,
 						{
 							output: A3(_pzel$markov$Main$generate, model.input, model.desiredLength, nextRng),
-							rng: _pzel$markov$Main$newRng(nextRng)
+							rng: _pzel$markov$Main$newRng(
+								_pzel$markov$Main$newRng(nextRng))
 						}),
 					{ctor: '[]'});
 		}
